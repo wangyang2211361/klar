@@ -267,7 +267,6 @@ func (i *Image) requestToken(resp *http.Response) (string, error) {
 	} else {
 		url = fmt.Sprintf("%s?service=%s&scope=%s", realm, service, scope)
 	}
-	fmt.Printf("%s\n",url)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, "Can't create a request")

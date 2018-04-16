@@ -57,6 +57,7 @@ func main() {
 	for _, ver := range []int{1, 3} {
 		c := clair.NewClair(conf.ClairAddr, ver, conf.ClairTimeout)
 		vs, err = c.Analyse(image)
+		fmt.Fprintf(os.Stderr, "analyze using API v%d: %s\n", ver, vs)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Failed to analyze using API v%d: %s\n", ver, err)
 		} else {
@@ -66,6 +67,7 @@ func main() {
 			break
 		}
 	}
+	fmt.Fprintf(os.Stderr, "analyze using API :%s\n",vs)
 	if err != nil {
 		fail("Failed to analyze, exiting")
 	}
