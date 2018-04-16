@@ -67,6 +67,7 @@ func main() {
 			break
 		}
 	}
+	fmt.Fprintf(os.Stderr, "analyze using API :%s\n","+++++++++++++++")
 	fmt.Fprintf(os.Stderr, "analyze using API :%s\n",vs)
 	if err != nil {
 		fail("Failed to analyze, exiting")
