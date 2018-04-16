@@ -203,10 +203,8 @@ func (i *Image) Pull() error {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode == http.StatusUnauthorized {
-		if i.Token == "" {
-			i.Token, err = i.requestToken(resp)
-			io.Copy(ioutil.Discard, resp.Body)
-		}
+		i.Token, err = i.requestToken(resp)
+		io.Copy(ioutil.Discard, resp.Body)
 		if err != nil {
 			return err
 		}
@@ -215,24 +213,8 @@ func (i *Image) Pull() error {
 		if err != nil {
 			return err
 		}
-		defer resp.Body.Close()
-		// try one more time by clearing the token to request it
-		if resp.StatusCode == http.StatusUnauthorized {
-			utils.DumpResponse(resp)
-			i.Token, err = i.requestToken(resp)
-			fmt.Printf("%s\n",i.Token)
-			io.Copy(ioutil.Discard, resp.Body)
-			if err != nil {
-				return err
-			}
-			// try again
-			resp, err = i.pullReq()
-			if err != nil {
-				return err
-			}
-			defer resp.Body.Close()
-		}
 	}
+	defer resp.Body.Close()
 	return parseImageResponse(resp, i)
 }
 
