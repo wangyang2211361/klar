@@ -92,7 +92,6 @@ func (a *apiV1) pushLayer(layer *layer) error {
 	if err != nil {
 		return fmt.Errorf("can't push layer to Clair: %s", err)
 	}
-	utils.DumpResponse(response)
 	defer response.Body.Close()
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
@@ -120,7 +119,6 @@ func (a *apiV1) Analyze(image *docker.Image) ([]*Vulnerability, error) {
 	if err != nil {
 		return nil, err
 	}
-	utils.DumpResponse(response)
 	defer response.Body.Close()
 	if response.StatusCode != http.StatusOK {
 		body, _ := ioutil.ReadAll(response.Body)
@@ -174,6 +172,8 @@ func (a *apiV3) Analyze(image *docker.Image) ([]*Vulnerability, error) {
 	if err != nil {
 		return nil, err
 	}
+	utils.DumpResponse(resp)
+	fmt.Fprintln(os.Stderr, "get ancestry resp :%s",resp)
 	var vs []*Vulnerability
 	for _, f := range resp.Ancestry.Features {
 		for _, v := range f.Vulnerabilities {
